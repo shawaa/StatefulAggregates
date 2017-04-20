@@ -23,27 +23,33 @@ namespace StatefulAggregatePOC
             ISessionFactory sessionFactory = CreateSessionFactory();
 
             Guid personId = CreatePerson(sessionFactory);
+            Console.WriteLine();
             GetPersonAndPrintDetails(sessionFactory, personId);
 
+            Console.WriteLine();
             ChangePersonName(sessionFactory, personId);
+            Console.WriteLine();
             GetPersonAndPrintDetails(sessionFactory, personId);
 
+            Console.WriteLine();
             ChangePersonName(sessionFactory, personId);
+            Console.WriteLine();
             GetPersonAndPrintDetails(sessionFactory, personId);
 
+            Console.WriteLine();
             ChangePostcode(sessionFactory, personId);
+            Console.WriteLine();
             GetPersonAndPrintDetails(sessionFactory, personId);
         }
 
         private static void ChangePostcode(ISessionFactory sessionFactory, Guid personId)
         {
-            Console.WriteLine("Change Postcode");
-
             using (ISession session = sessionFactory.OpenSession())
             using (ITransaction transaction = session.BeginTransaction())
             using (PersonRepository personRepository = new PersonRepository(session))
             {
                 Person person = personRepository.Get(personId);
+                Console.WriteLine("Change Postcode");
                 person.ChangePostcode("NG27GL");
                 transaction.Commit();
             }
@@ -51,13 +57,12 @@ namespace StatefulAggregatePOC
 
         private static void ChangePersonName(ISessionFactory sessionFactory, Guid personId)
         {
-            Console.WriteLine("Change Name to Andy");
-
             using (ISession session = sessionFactory.OpenSession())
             using (ITransaction transaction = session.BeginTransaction())
             using (PersonRepository personRepository = new PersonRepository(session))
             {
                 Person person = personRepository.Get(personId);
+                Console.WriteLine("Change Name to Andy");
                 person.ChangeName("Andy", "Shaw");
                 transaction.Commit();
             }
@@ -66,7 +71,6 @@ namespace StatefulAggregatePOC
         private static Guid CreatePerson(ISessionFactory sessionFactory)
         {
             Guid personId;
-            Console.WriteLine("Create Person");
 
             using (ISession session = sessionFactory.OpenSession())
             using (ITransaction transaction = session.BeginTransaction())
@@ -74,7 +78,7 @@ namespace StatefulAggregatePOC
             {
                 Person person = new Person("Andrew", "Sure", "NG23SN");
                 personId = person.Id;
-
+                Console.WriteLine("Create Person");
                 personRepository.Add(person);
                 transaction.Commit();
             }
@@ -97,9 +101,27 @@ namespace StatefulAggregatePOC
         {
             Configuration configuration = new Configuration();
             configuration.EventListeners.FlushEntityEventListeners = new IFlushEntityEventListener[] { new UpdateAggregateStateFlushEntityEventListener(), new DefaultFlushEntityEventListener() };
-            //configuration.EventListeners.PreUpdateEventListeners = new IPreUpdateEventListener[] { new AggregateRootVersionListener() };
-            //configuration.EventListeners.PreInsertEventListeners = new IPreInsertEventListener[] { new AggregateRootVersionListener() };
+            configuration.EventListeners.PreUpdateEventListeners = new IPreUpdateEventListener[] { new AggregateRootVersionListener() };
+            configuration.EventListeners.PreInsertEventListeners = new IPreInsertEventListener[] { new AggregateRootVersionListener() };
             configuration.EventListeners.FlushEventListeners = new IFlushEventListener[] { new AtlasDefaultFlushEventListener() };
+
+            //configuration.EventListeners.FlushEventListeners = new IFlushEventListener[] { new DefaultFlushEventListener(), new LoggingFlushEventListener(),  };
+            //configuration.EventListeners.PostLoadEventListeners = new IPostLoadEventListener[] { new DefaultPostLoadEventListener(),new LoggingPostLoadEventListener(),  };
+            //configuration.EventListeners.AutoFlushEventListeners = new IAutoFlushEventListener[] { new DefaultAutoFlushEventListener(),new LoggingAutoFlushEventListener(),  };
+            //configuration.EventListeners.DirtyCheckEventListeners = new IDirtyCheckEventListener[] { new DefaultDirtyCheckEventListener(),new LoggingDirtyCheckEventListener(),  };
+            //configuration.EventListeners.EvictEventListeners = new IEvictEventListener[] { new DefaultEvictEventListener(),new LoggingEvictEventListener(),  };
+            //configuration.EventListeners.FlushEntityEventListeners = new IFlushEntityEventListener[] { new DefaultFlushEntityEventListener(),new LoggingFlushEntityEventListener(),  };
+            //configuration.EventListeners.LoadEventListeners = new ILoadEventListener[] { new DefaultLoadEventListener(),new LoggingLoadEventListener(),  };
+            //configuration.EventListeners.LockEventListeners = new ILockEventListener[] { new DefaultLockEventListener(),new LoggingLockEventListener(),  };
+            //configuration.EventListeners.PersistEventListeners = new IPersistEventListener[] { new DefaultPersistEventListener(),new LoggingPersistEventListener(),  };
+            //configuration.EventListeners.PersistOnFlushEventListeners = new IPersistEventListener[] { new DefaultPersistEventListener(),new LoggingPersistEventListener(),  }; 
+            //configuration.EventListeners.RefreshEventListeners = new IRefreshEventListener[] { new DefaultRefreshEventListener(),new LoggingRefreshEventListener(),  };
+            //configuration.EventListeners.PreUpdateEventListeners = new IPreUpdateEventListener[] { new LoggingPreUpLoggingdateEventListener(),  };
+            //configuration.EventListeners.PreInsertEventListeners = new IPreInsertEventListener[] { new LoggingPreInsertEventListener(),  };
+            //configuration.EventListeners.PostCommitInsertEventListeners = new IPostInsertEventListener[] { new LoggingPostCommitInsertEventListener(),  };
+            //configuration.EventListeners.PostInsertEventListeners = new IPostInsertEventListener[] { new LoggingPostCommitInsertEventListener(),  };
+            //configuration.EventListeners.PostUpdateEventListeners = new IPostUpdateEventListener[] { new LoggingPostUpdateEventListener(),  };
+
 
             //configuration.Interceptor = new TransientInterceptor();
             NHibernateProfiler.Initialize();

@@ -1,10 +1,5 @@
-using System.Linq;
 using NHibernate;
-using NHibernate.Collection;
-using NHibernate.Engine;
 using NHibernate.Event;
-using NHibernate.Persister.Entity;
-using NHibernate.Proxy;
 
 namespace StatefulAggregatePOC.Infrastucture
 {

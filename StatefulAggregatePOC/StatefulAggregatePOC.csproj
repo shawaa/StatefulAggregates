@@ -102,6 +102,9 @@
     <Compile Include="Infrastucture\UpdateAggregateStateFlushEntityEventListener.cs" />
     <Compile Include="Domain\Person.cs" />
     <Compile Include="Domain\PersonAddress.cs" />
+    <Compile Include="LoggingAutoFlushEventListener.cs" />
+    <Compile Include="LoggingFlushEventListener.cs" />
+    <Compile Include="LoggingPostLoadEventListener.cs" />
     <Compile Include="Persistence\PersonAddressMap.cs" />
     <Compile Include="Domain\PersonAddressState.cs" />
     <Compile Include="Persistence\PersonMap.cs" />

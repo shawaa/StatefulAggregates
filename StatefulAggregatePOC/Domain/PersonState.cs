@@ -42,13 +42,10 @@ namespace StatefulAggregatePOC.Domain
 
             PersonState newPersonState = (PersonState)newState;
 
-            Id = newPersonState.Id;
             FirstName = newPersonState.FirstName;
             LastName = newPersonState.LastName;
-            PersonAddressState.Id = newPersonState.PersonAddressState.Id;
-            PersonAddressState.Person = newPersonState.PersonAddressState.Person;
+
             PersonAddressState.PostCode = newPersonState.PersonAddressState.PostCode;
-            Version = newPersonState.Version;
         }
 
         public virtual bool IsSaved { get; set; }

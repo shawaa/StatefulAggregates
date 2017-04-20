@@ -48,7 +48,9 @@ namespace StatefulAggregatePOC.Domain
             PersonAddressState.Id = newPersonState.PersonAddressState.Id;
             PersonAddressState.Person = newPersonState.PersonAddressState.Person;
             PersonAddressState.PostCode = newPersonState.PersonAddressState.PostCode;
-            Version++;
+            Version = newPersonState.Version;
         }
+
+        public virtual bool IsSaved { get; set; }
     }
 }

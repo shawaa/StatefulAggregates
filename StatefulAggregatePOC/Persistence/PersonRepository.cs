@@ -15,7 +15,7 @@ namespace StatefulAggregatePOC.Persistence
 
         public void Add(Person person)
         {
-            _session.SaveOrUpdate(person.GetSerializableState());
+            _session.Save(person.GetSerializableState());
         }
 
         public void Dispose()

@@ -14,8 +14,4 @@ namespace StatefulAggregatePOC.Infrastucture
 
         void Update(ISerializableAggregateState newState);
     }
-
-    public interface IPersistable
-    {
-    }
 }

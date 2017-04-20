@@ -1,7 +1,9 @@
 ﻿using System;
+using System.Data;
 using System.IO;
 using FluentNHibernate.Cfg;
 using FluentNHibernate.Cfg.Db;
+using HibernatingRhinos.Profiler.Appender.NHibernate;
 using NHibernate;
 using NHibernate.Cfg;
 using NHibernate.Event;
@@ -16,7 +18,8 @@ namespace StatefulAggregatePOC
     public class Program
     {
         static void Main(string[] args)
-        {
+        {App_Start.NHibernateProfilerBootstrapper.PreStart();
+
             ISessionFactory sessionFactory = CreateSessionFactory();
 
             Guid personId = CreatePerson(sessionFactory);
@@ -94,9 +97,15 @@ namespace StatefulAggregatePOC
         {
             Configuration configuration = new Configuration();
             configuration.EventListeners.FlushEntityEventListeners = new IFlushEntityEventListener[] { new UpdateAggregateStateFlushEntityEventListener(), new DefaultFlushEntityEventListener() };
+            //configuration.EventListeners.PreUpdateEventListeners = new IPreUpdateEventListener[] { new AggregateRootVersionListener() };
+            //configuration.EventListeners.PreInsertEventListeners = new IPreInsertEventListener[] { new AggregateRootVersionListener() };
+            configuration.EventListeners.FlushEventListeners = new IFlushEventListener[] { new AtlasDefaultFlushEventListener() };
+
+            //configuration.Interceptor = new TransientInterceptor();
+            NHibernateProfiler.Initialize();
 
             return Fluently.Configure(configuration)
-                .Database(SQLiteConfiguration.Standard.UsingFile("StatefulAggregatePoc.db"))
+                .Database(SQLiteConfiguration.Standard.UsingFile("StatefulAggregatePoc.db").IsolationLevel(IsolationLevel.ReadCommitted))
                 .Mappings(m => m.FluentMappings.AddFromAssemblyOf<Program>())
                 .ExposeConfiguration(BuildSchema)
                 .BuildSessionFactory();
@@ -112,3 +121,4 @@ namespace StatefulAggregatePOC
         }
     }
 }
+

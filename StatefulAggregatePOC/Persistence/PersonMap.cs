@@ -9,11 +9,11 @@ namespace StatefulAggregatePOC.Persistence
         {
             Id(x => x.Id).GeneratedBy.Assigned();
 
+            Version(x => x.Version);
+
             Map(x => x.FirstName);
 
             Map(x => x.LastName);
-
-            Map(x => x.Version);
 
             HasOne(x => x.PersonAddressState)
                 .Cascade.All()

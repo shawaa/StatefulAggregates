@@ -9,8 +9,6 @@ namespace StatefulAggregatePOC.Infrastucture
         {
             ICollection entities = @event.Session.PersistenceContext.EntityEntries.Keys;
 
-            //Console.WriteLine("\tFlushEntityEvent was raised");
-
             foreach (object entity in entities)
             {
                 ISerializableAggregateState oldState = entity as ISerializableAggregateState;

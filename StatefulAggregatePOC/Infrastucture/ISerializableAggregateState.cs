@@ -2,7 +2,7 @@ using System;
 
 namespace StatefulAggregatePOC.Infrastucture
 {
-    public interface ISerializableAggregateState : IPersistable
+    public interface ISerializableAggregateState
     {
         IAggregateRoot AggregateRoot { get; set; }
 

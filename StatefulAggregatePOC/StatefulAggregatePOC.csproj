@@ -95,7 +95,6 @@
     <Compile Include="Infrastucture\AggregateRootVersionListener.cs" />
     <Compile Include="Infrastucture\AtlasDefaultFlushEventListener.cs" />
     <Compile Include="Infrastucture\IAggregateRoot.cs" />
-    <Compile Include="Infrastucture\IPersistable.cs" />
     <Compile Include="Infrastucture\ISerializableAggregateMemberState.cs" />
     <Compile Include="Infrastucture\ISerializableAggregateState.cs" />
     <Compile Include="Infrastucture\UpdateAggregateStateFlushEntityEventListener.cs" />

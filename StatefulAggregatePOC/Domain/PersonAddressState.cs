@@ -12,7 +12,5 @@ namespace StatefulAggregatePOC.Domain
         public virtual PersonState Person { get; set; }
 
         public virtual ISerializableAggregateState AggregateRootState => Person;
-
-        public virtual bool IsSaved { get; set; }
     }
 }

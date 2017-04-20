@@ -1,6 +1,6 @@
 namespace StatefulAggregatePOC.Infrastucture
 {
-    public interface ISerializableAggregateMemberState : IPersistable
+    public interface ISerializableAggregateMemberState
     {
         ISerializableAggregateState AggregateRootState { get; }
     }

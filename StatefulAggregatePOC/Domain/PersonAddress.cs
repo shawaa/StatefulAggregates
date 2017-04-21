@@ -27,12 +27,13 @@ namespace StatefulAggregatePOC.Domain
             PostCode = newPostCode;
         }
 
-        public PersonAddressState GetSerializableState()
+        public PersonAddressState GetSerializableState(PersonState personState)
         {
             return new PersonAddressState
             {
                 Id = _id,
-                PostCode = PostCode
+                PostCode = PostCode,
+                Person = personState
             };
         }
     }

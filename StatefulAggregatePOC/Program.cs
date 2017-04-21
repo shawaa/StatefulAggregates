@@ -58,7 +58,7 @@ namespace StatefulAggregatePOC
             using (PersonRepository personRepository = new PersonRepository(session))
             {
                 Person person = personRepository.Get(personId);
-                Console.WriteLine("Change Job");
+                Console.WriteLine("Start new Job");
                 person.StartJob("Dev 2", new DateTime(2001, 1, 1));
                 transaction.Commit();
             }
@@ -85,7 +85,7 @@ namespace StatefulAggregatePOC
             using (ITransaction transaction = session.BeginTransaction())
             using (PersonRepository personRepository = new PersonRepository(session))
             {
-                Person person = new Person("Andrew", "Sure", "NG23SN");
+                Person person = new Person("Andrew", "Sure", "NG235SN");
                 personId = person.Id;
                 person.StartJob("Dev", new DateTime(2000, 1, 1));
                 Console.WriteLine("Create Person");

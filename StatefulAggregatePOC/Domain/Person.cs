@@ -64,8 +64,6 @@ namespace StatefulAggregatePOC.Domain
 
         public IAggregateState GetSerializableState()
         {
-            PersonAddressState personAddressState = _personAddress.GetSerializableState();
-
             PersonState aggregateState = new PersonState
             {
                 Id = Id,
@@ -73,12 +71,10 @@ namespace StatefulAggregatePOC.Domain
                 AggregateRoot = this,
                 FirstName = _firstName,
                 LastName = _lastName,
-                PersonAddressState = personAddressState,
             };
-
+            
             aggregateState.Jobs = _jobs.Select(x => x.GetJobState(aggregateState)).ToList();
-
-            personAddressState.Person = aggregateState;
+            aggregateState.PersonAddressState = _personAddress.GetSerializableState(aggregateState);
 
             return aggregateState;
         }

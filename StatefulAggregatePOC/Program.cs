@@ -59,7 +59,7 @@ namespace StatefulAggregatePOC
             {
                 Person person = personRepository.Get(personId);
                 Console.WriteLine("Start new Job");
-                person.StartJob("Dev 2", new DateTime(2001, 1, 1));
+                person.StartJob("Super Dev", new DateTime(2001, 1, 1));
                 transaction.Commit();
             }
         }

@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using StatefulAggregatePOC.Infrastucture;
 
 namespace StatefulAggregatePOC.Domain
 {

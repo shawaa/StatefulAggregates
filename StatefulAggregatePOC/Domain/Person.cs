@@ -60,6 +60,11 @@ namespace StatefulAggregatePOC.Domain
             _personAddress.ChangePostCode(postcode);
         }
 
+        public void EndJob(string jobTitle, DateTime endDate)
+        {
+            _jobs.Single(x => x.JobTitle == jobTitle).EndJob(endDate);
+        }
+
         public IAggregateState GetSerializableState()
         {
             PersonState aggregateState = new PersonState
@@ -75,11 +80,6 @@ namespace StatefulAggregatePOC.Domain
             aggregateState.PersonAddressState = _personAddress.GetSerializableState(aggregateState);
 
             return aggregateState;
-        }
-
-        public void EndJob(string jobTitle, DateTime endDate)
-        {
-            _jobs.Single(x => x.JobTitle == jobTitle).EndJob(endDate);
         }
     }
 }

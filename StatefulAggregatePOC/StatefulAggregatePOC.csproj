@@ -96,7 +96,6 @@
     <Compile Include="Domain\Job.cs" />
     <Compile Include="Domain\JobState.cs" />
     <Compile Include="Infrastucture\AggregateRootVersionListener.cs" />
-    <Compile Include="Infrastucture\AtlasDefaultFlushEventListener.cs" />
     <Compile Include="Domain\IAggregateRoot.cs" />
     <Compile Include="Domain\IAggregateStatePart.cs" />
     <Compile Include="Domain\IAggregateState.cs" />

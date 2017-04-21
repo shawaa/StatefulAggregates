@@ -129,7 +129,6 @@ namespace StatefulAggregatePOC
             configuration.EventListeners.FlushEntityEventListeners = new IFlushEntityEventListener[] { new UpdateAggregateStateFlushEntityEventListener(), new DefaultFlushEntityEventListener() };
             configuration.EventListeners.PreUpdateEventListeners = new IPreUpdateEventListener[] { new AggregateRootVersionListener() };
             configuration.EventListeners.PreInsertEventListeners = new IPreInsertEventListener[] { new AggregateRootVersionListener() };
-            configuration.EventListeners.FlushEventListeners = new IFlushEventListener[] { new AtlasDefaultFlushEventListener() };
 
             NHibernateProfiler.Initialize();
 

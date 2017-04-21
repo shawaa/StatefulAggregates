@@ -4,7 +4,7 @@ namespace StatefulAggregatePOC.Domain
 {
     public interface IAggregateRoot
     {
-        IAggregateState GetSerializableState();
+        IAggregateState GetState();
 
         Guid Id { get; }
 

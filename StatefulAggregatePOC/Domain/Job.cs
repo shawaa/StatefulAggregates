@@ -2,7 +2,7 @@
 
 namespace StatefulAggregatePOC.Domain
 {
-    public class Job
+    public sealed class Job
     {
         private readonly Guid _id;
 

@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace StatefulAggregatePOC.Domain
 {
-    public class Person : IAggregateRoot
+    public sealed class Person : IAggregateRoot
     {
         private string _firstName;
 
@@ -65,7 +65,7 @@ namespace StatefulAggregatePOC.Domain
             _jobs.Single(x => x.JobTitle == jobTitle).EndJob(endDate);
         }
 
-        public IAggregateState GetSerializableState()
+        public IAggregateState GetState()
         {
             PersonState aggregateState = new PersonState
             {

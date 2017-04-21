@@ -1,5 +1,4 @@
 ﻿using System;
-using StatefulAggregatePOC.Infrastucture;
 
 namespace StatefulAggregatePOC.Domain
 {

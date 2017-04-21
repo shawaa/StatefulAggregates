@@ -2,7 +2,7 @@
 
 namespace StatefulAggregatePOC.Domain
 {
-    public class PersonAddress : IPersonAddress
+    public sealed class PersonAddress : IPersonAddress
     {
         private readonly Guid _id;
 

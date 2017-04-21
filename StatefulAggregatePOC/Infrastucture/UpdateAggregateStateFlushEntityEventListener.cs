@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Collections.Generic;
 using NHibernate.Event;
 
 namespace StatefulAggregatePOC.Infrastucture
@@ -9,18 +10,25 @@ namespace StatefulAggregatePOC.Infrastucture
         {
             ICollection entities = @event.Session.PersistenceContext.EntityEntries.Keys;
 
+            IList<IAggregateState> aggregateStates = new List<IAggregateState>();
+
             foreach (object entity in entities)
             {
-                ISerializableAggregateState oldState = entity as ISerializableAggregateState;
+                IAggregateState oldState = entity as IAggregateState;
 
                 if (oldState == null)
                 {
                     continue;
                 }
 
-                ISerializableAggregateState newState = oldState.AggregateRoot.GetSerializableState();
+                IAggregateState newState = oldState.AggregateRoot.GetSerializableState();
                 
-                @event.Session.Merge(newState);
+                aggregateStates.Add(newState);
+            }
+
+            foreach (IAggregateState aggregateState in aggregateStates)
+            {
+                @event.Session.Merge(aggregateState);
             }
         }
     }

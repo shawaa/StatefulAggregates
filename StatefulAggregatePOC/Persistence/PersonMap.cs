@@ -1,4 +1,5 @@
-﻿using FluentNHibernate.Mapping;
+﻿using System.Security.Cryptography.X509Certificates;
+using FluentNHibernate.Mapping;
 using StatefulAggregatePOC.Domain;
 
 namespace StatefulAggregatePOC.Persistence
@@ -14,6 +15,10 @@ namespace StatefulAggregatePOC.Persistence
             Map(x => x.FirstName);
 
             Map(x => x.LastName);
+
+            HasMany(x => x.Jobs)
+                .Cascade.AllDeleteOrphan()
+                .Inverse();
 
             HasOne(x => x.PersonAddressState)
                 .Cascade.All()

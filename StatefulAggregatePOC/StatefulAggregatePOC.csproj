@@ -92,14 +92,17 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\NHibernateProfilerBootstrapper.cs" />
+    <Compile Include="Domain\Job.cs" />
+    <Compile Include="Domain\JobState.cs" />
     <Compile Include="Infrastucture\AggregateRootVersionListener.cs" />
     <Compile Include="Infrastucture\AtlasDefaultFlushEventListener.cs" />
     <Compile Include="Infrastucture\IAggregateRoot.cs" />
-    <Compile Include="Infrastucture\ISerializableAggregateMemberState.cs" />
-    <Compile Include="Infrastucture\ISerializableAggregateState.cs" />
+    <Compile Include="Infrastucture\IAggregateStatePart.cs" />
+    <Compile Include="Infrastucture\IAggregateState.cs" />
     <Compile Include="Infrastucture\UpdateAggregateStateFlushEntityEventListener.cs" />
     <Compile Include="Domain\Person.cs" />
     <Compile Include="Domain\PersonAddress.cs" />
+    <Compile Include="Persistence\JobMap.cs" />
     <Compile Include="Persistence\PersonAddressMap.cs" />
     <Compile Include="Domain\PersonAddressState.cs" />
     <Compile Include="Persistence\PersonMap.cs" />

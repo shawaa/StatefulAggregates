@@ -1,5 +1,10 @@
+using System.Linq;
 using NHibernate;
+using NHibernate.Collection;
+using NHibernate.Engine;
 using NHibernate.Event;
+using NHibernate.Persister.Entity;
+using NHibernate.Proxy;
 
 namespace StatefulAggregatePOC.Infrastucture
 {
@@ -17,15 +22,41 @@ namespace StatefulAggregatePOC.Infrastucture
 
         private static bool ForceAggregateRootVersion(AbstractPreDatabaseOperationEvent @event)
         {
-            ISerializableAggregateMemberState memberState = @event.Entity as ISerializableAggregateMemberState;
-            if (memberState == null)
+            IAggregateStatePart statePart = @event.Entity as IAggregateStatePart;
+            if (statePart == null)
             {
                 return false;
             }
 
-            @event.Session.Lock(memberState.AggregateRootState, LockMode.Force);
+            if (!IsAggregateRootDirty(@event.Session, statePart.AggregateRootState))
+            {
+                @event.Session.Lock(statePart.AggregateRootState, LockMode.Force);
+            }
 
             return false;
+        }
+
+        private static bool IsAggregateRootDirty(ISession session, IAggregateState entity)
+        {
+            ISessionImplementor sessionImplementation = session.GetSessionImplementation();
+            IPersistenceContext persistenceContext = sessionImplementation.PersistenceContext;
+
+            if (entity.IsProxy())
+            {
+                entity = (IAggregateState)persistenceContext.Unproxy(entity);
+            }
+
+            EntityEntry entityEntry = persistenceContext.GetEntry(entity);
+
+            IEntityPersister entityPersister = sessionImplementation.GetEntityPersister(null, entity);
+
+            object[] oldState = entityEntry.LoadedState;
+            object[] currentState = entityPersister.GetPropertyValues(entity, sessionImplementation.EntityMode);
+
+            int[] findDirty = entityEntry.Persister.FindDirty(currentState, oldState, entity, sessionImplementation);
+            bool hasDirtyCollection = currentState.OfType<IPersistentCollection>().Any(x => x.IsDirty);
+
+            return (findDirty != null) || hasDirtyCollection;
         }
     }
 }

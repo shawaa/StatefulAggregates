@@ -1,9 +1,10 @@
 using System;
+using System.Collections.Generic;
 using StatefulAggregatePOC.Infrastucture;
 
 namespace StatefulAggregatePOC.Domain
 {
-    public class PersonState : ISerializableAggregateState
+    public class PersonState : IAggregateState
     {
         public virtual IAggregateRoot AggregateRoot { get; set; }
 
@@ -16,5 +17,7 @@ namespace StatefulAggregatePOC.Domain
         public virtual string LastName { get; set; }
 
         public virtual PersonAddressState PersonAddressState { get; set; }
+
+        public virtual IList<JobState> Jobs { get; set; }
     }
 }

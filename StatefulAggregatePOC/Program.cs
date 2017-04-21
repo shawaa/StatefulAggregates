@@ -33,6 +33,9 @@ namespace StatefulAggregatePOC
 
             ChangePostcode(sessionFactory, personId);
             GetPersonAndPrintDetails(sessionFactory, personId);
+
+            ChangeJob(sessionFactory, personId);
+            GetPersonAndPrintDetails(sessionFactory, personId);
         }
 
         private static void ChangePostcode(ISessionFactory sessionFactory, Guid personId)
@@ -44,6 +47,19 @@ namespace StatefulAggregatePOC
                 Person person = personRepository.Get(personId);
                 Console.WriteLine("Change Postcode");
                 person.ChangePostcode("NG27GL");
+                transaction.Commit();
+            }
+        }
+
+        private static void ChangeJob(ISessionFactory sessionFactory, Guid personId)
+        {
+            using (ISession session = sessionFactory.OpenSession())
+            using (ITransaction transaction = session.BeginTransaction())
+            using (PersonRepository personRepository = new PersonRepository(session))
+            {
+                Person person = personRepository.Get(personId);
+                Console.WriteLine("Change Job");
+                person.StartJob("Dev 2", new DateTime(2001, 1, 1));
                 transaction.Commit();
             }
         }
@@ -71,6 +87,7 @@ namespace StatefulAggregatePOC
             {
                 Person person = new Person("Andrew", "Sure", "NG23SN");
                 personId = person.Id;
+                person.StartJob("Dev", new DateTime(2000, 1, 1));
                 Console.WriteLine("Create Person");
                 personRepository.Add(person);
                 transaction.Commit();

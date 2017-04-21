@@ -3,7 +3,7 @@ using StatefulAggregatePOC.Infrastucture;
 
 namespace StatefulAggregatePOC.Domain
 {
-    public class PersonAddressState : ISerializableAggregateMemberState
+    public class PersonAddressState : IAggregateStatePart
     {
         public virtual Guid Id { get; set; }
 
@@ -11,6 +11,6 @@ namespace StatefulAggregatePOC.Domain
 
         public virtual PersonState Person { get; set; }
 
-        public virtual ISerializableAggregateState AggregateRootState => Person;
+        public virtual IAggregateState AggregateRootState => Person;
     }
 }

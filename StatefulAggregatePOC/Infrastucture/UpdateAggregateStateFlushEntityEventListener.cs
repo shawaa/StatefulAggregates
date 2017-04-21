@@ -1,8 +1,4 @@
 using System.Collections;
-using System.Collections.Concurrent;
-using System.Collections.Generic;
-using NHibernate;
-using NHibernate.Engine;
 using NHibernate.Event;
 
 namespace StatefulAggregatePOC.Infrastucture

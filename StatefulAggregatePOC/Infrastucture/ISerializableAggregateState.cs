@@ -9,9 +9,5 @@ namespace StatefulAggregatePOC.Infrastucture
         Guid Id { get; set; }
 
         int Version { get; set; }
-
-        bool Equals(ISerializableAggregateState other);
-
-        void Update(ISerializableAggregateState newState);
     }
 }

@@ -1,4 +1,8 @@
 using System.Collections;
+using System.Collections.Concurrent;
+using System.Collections.Generic;
+using NHibernate;
+using NHibernate.Engine;
 using NHibernate.Event;
 
 namespace StatefulAggregatePOC.Infrastucture
@@ -19,13 +23,8 @@ namespace StatefulAggregatePOC.Infrastucture
                 }
 
                 ISerializableAggregateState newState = oldState.AggregateRoot.GetSerializableState();
-
-                bool isDirt = !newState.Equals(oldState);
-
-                if (isDirt)
-                {
-                    oldState.Update(newState);
-                }
+                
+                @event.Session.Merge(newState);
             }
         }
     }

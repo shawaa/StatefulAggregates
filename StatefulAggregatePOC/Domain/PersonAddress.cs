@@ -2,7 +2,7 @@
 
 namespace StatefulAggregatePOC.Domain
 {
-    public class PersonAddress
+    public class PersonAddress : IPersonAddress
     {
         private readonly Guid _id;
 
@@ -12,17 +12,15 @@ namespace StatefulAggregatePOC.Domain
             _id = Guid.NewGuid();
         }
 
-        public PersonAddress(PersonState personState)
+        public PersonAddress(PersonAddressState personAddressState)
         {
-            _id = personState.PersonAddressState.Id;
-            PostCode = personState.PersonAddressState.PostCode;
-
-            personState.PersonAddressState.Person = personState;
+            _id = personAddressState.Id;
+            PostCode = personAddressState.PostCode;
         }
 
         public string PostCode { get; private set; }
 
-        internal void ChangePostCode(string newPostCode)
+        public void ChangePostCode(string newPostCode)
         {
             PostCode = newPostCode;
         }

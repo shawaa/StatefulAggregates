@@ -34,7 +34,10 @@ namespace StatefulAggregatePOC
             ChangePostcode(sessionFactory, personId);
             GetPersonAndPrintDetails(sessionFactory, personId);
 
-            ChangeJob(sessionFactory, personId);
+            StartNewJob(sessionFactory, personId);
+            GetPersonAndPrintDetails(sessionFactory, personId);
+
+            EndJob(sessionFactory, personId);
             GetPersonAndPrintDetails(sessionFactory, personId);
         }
 
@@ -45,21 +48,34 @@ namespace StatefulAggregatePOC
             using (PersonRepository personRepository = new PersonRepository(session))
             {
                 Person person = personRepository.Get(personId);
-                Console.WriteLine("Change Postcode");
+                Console.WriteLine("Change Postcode (Change member)");
                 person.ChangePostcode("NG27GL");
                 transaction.Commit();
             }
         }
 
-        private static void ChangeJob(ISessionFactory sessionFactory, Guid personId)
+        private static void StartNewJob(ISessionFactory sessionFactory, Guid personId)
         {
             using (ISession session = sessionFactory.OpenSession())
             using (ITransaction transaction = session.BeginTransaction())
             using (PersonRepository personRepository = new PersonRepository(session))
             {
                 Person person = personRepository.Get(personId);
-                Console.WriteLine("Start new Job");
+                Console.WriteLine("Start new Job (Change a collection)");
                 person.StartJob("Super Dev", new DateTime(2001, 1, 1));
+                transaction.Commit();
+            }
+        }
+
+        private static void EndJob(ISessionFactory sessionFactory, Guid personId)
+        {
+            using (ISession session = sessionFactory.OpenSession())
+            using (ITransaction transaction = session.BeginTransaction())
+            using (PersonRepository personRepository = new PersonRepository(session))
+            {
+                Person person = personRepository.Get(personId);
+                Console.WriteLine("End Job (Change item in a collection)");
+                person.EndJob("Super Dev", new DateTime(2003, 1, 1));
                 transaction.Commit();
             }
         }
@@ -71,7 +87,7 @@ namespace StatefulAggregatePOC
             using (PersonRepository personRepository = new PersonRepository(session))
             {
                 Person person = personRepository.Get(personId);
-                Console.WriteLine("Change Name to Andy");
+                Console.WriteLine("Change Name to Andy (Edit aggregate root)");
                 person.ChangeName("Andy", "Shaw");
                 transaction.Commit();
             }
@@ -88,7 +104,7 @@ namespace StatefulAggregatePOC
                 Person person = new Person("Andrew", "Sure", "NG235SN");
                 personId = person.Id;
                 person.StartJob("Dev", new DateTime(2000, 1, 1));
-                Console.WriteLine("Create Person");
+                Console.WriteLine("Create Person (Create aggregate)");
                 personRepository.Add(person);
                 transaction.Commit();
             }

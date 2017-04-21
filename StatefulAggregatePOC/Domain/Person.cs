@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using NHibernate.UserTypes;
-using StatefulAggregatePOC.Infrastucture;
 
 namespace StatefulAggregatePOC.Domain
 {
@@ -12,7 +10,7 @@ namespace StatefulAggregatePOC.Domain
 
         private string _lastName;
 
-        private readonly PersonAddress _personAddress;
+        private readonly IPersonAddress _personAddress;
 
         private readonly IList<Job> _jobs;
 
@@ -36,7 +34,7 @@ namespace StatefulAggregatePOC.Domain
             _firstName = personState.FirstName;
             _lastName = personState.LastName;
 
-            _personAddress = new PersonAddress(personState);
+            _personAddress = new PersonAddress(personState.PersonAddressState);
             _jobs = personState.Jobs.Select(x => new Job(x)).ToList();
         }
 
@@ -44,7 +42,7 @@ namespace StatefulAggregatePOC.Domain
 
         public int Version { get; }
 
-        public string Description => $"V{Version}: {_firstName} {_lastName} of {_personAddress.PostCode} doing job {_jobs.OrderBy(x => x.StartDate).Last().JobTitle}";
+        public string Description => $"V{Version}: {_firstName} {_lastName} of {_personAddress.PostCode} doing job {_jobs.OrderBy(x => x.StartDate).Last().JobTitle} until {_jobs.OrderBy(x => x.StartDate).Last().EndDate ?? new DateTime(9999, 1, 1)}";
 
         public void ChangeName(string newFirstName, string newLastName)
         {
@@ -77,6 +75,11 @@ namespace StatefulAggregatePOC.Domain
             aggregateState.PersonAddressState = _personAddress.GetSerializableState(aggregateState);
 
             return aggregateState;
+        }
+
+        public void EndJob(string jobTitle, DateTime endDate)
+        {
+            _jobs.Single(x => x.JobTitle == jobTitle).EndJob(endDate);
         }
     }
 }

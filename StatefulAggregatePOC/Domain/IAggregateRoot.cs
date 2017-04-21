@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace StatefulAggregatePOC.Infrastucture
+namespace StatefulAggregatePOC.Domain
 {
     public interface IAggregateRoot
     {

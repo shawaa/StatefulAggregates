@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using NHibernate.Event;
+using StatefulAggregatePOC.Domain;
 
 namespace StatefulAggregatePOC.Infrastucture
 {

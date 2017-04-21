@@ -1,4 +1,4 @@
-namespace StatefulAggregatePOC.Infrastucture
+namespace StatefulAggregatePOC.Domain
 {
     public interface IAggregateStatePart
     {

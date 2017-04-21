@@ -30,6 +30,7 @@ namespace StatefulAggregatePOC.Domain
         public DateTime StartDate => _startDate;
 
         public string JobTitle => _jobTitle;
+        public DateTime? EndDate => _endDate;
 
         internal JobState GetJobState(PersonState personState)
         {

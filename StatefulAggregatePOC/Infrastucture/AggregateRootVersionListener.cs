@@ -5,6 +5,7 @@ using NHibernate.Engine;
 using NHibernate.Event;
 using NHibernate.Persister.Entity;
 using NHibernate.Proxy;
+using StatefulAggregatePOC.Domain;
 
 namespace StatefulAggregatePOC.Infrastucture
 {
